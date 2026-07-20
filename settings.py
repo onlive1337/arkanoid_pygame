@@ -1,34 +1,31 @@
-"""settings.py – статическая конфигурация игры: размеры, скорости, цвета, пути.
+"""settings.py – static config for in-game variables.
 
-Модуль не содержит логики и не имеет побочных эффектов при импорте (кроме
-простой арифметики над константами), поэтому его безопасно импортировать
-из любого места проекта в любой момент — в отличие, например, от
-game.audio, где часть имён появляется только после init_audio().
+No logic here.
+Feel free to experiment with variables.
 """
 
 from pathlib import Path
 
-# --- Пути -------------------------------------------------------------------
-# Считаются от расположения этого файла, а не от текущей рабочей директории:
-# так игра находит assets/ и levels/ независимо от того, откуда её запустили.
+# --- Paths -------------------------------------------------------------------
+# Relative paths to resolve file names
 BASE_DIR = Path(__file__).resolve().parent
 ASSETS_DIR = BASE_DIR / "assets"
 LEVELS_DIR = BASE_DIR / "levels"
 
-# --- Экран и таймер -----------------------------------------------------------
+# --- Screen, Timer -----------------------------------------------------------
 WIDTH, HEIGHT = 800, 600
 FPS = 60
 
-# --- Игровое поле -------------------------------------------------------------
+# --- Playing Field -------------------------------------------------------------
 BRICK_WIDTH, BRICK_HEIGHT = 60, 20
-TOP_OFFSET = 60  # отступ сверху для UI и верхней границы
-FIELD_LEFT = 40  # левый отступ для кирпичей
+TOP_OFFSET = 60  # Top Offset for UI status bar
+FIELD_LEFT = 40  # Left Offset for bricks 
 
-# Игровое поле фиксированного размера — не зависит от конкретного уровня
+# Calculation of the playing field rows and cols
 FIELD_COLS = (WIDTH - 2 * FIELD_LEFT) // BRICK_WIDTH
 FIELD_RIGHT = FIELD_LEFT + FIELD_COLS * BRICK_WIDTH
 
-# --- Платформа и мяч -----------------------------------------------------------
+# --- Paddle, Ball -----------------------------------------------------------
 PADDLE_WIDTH, PADDLE_HEIGHT = 100, 12
 PADDLE_SPEED = 7
 
@@ -38,19 +35,19 @@ BALL_SPEED_Y = -5
 SLIDE_FACTOR = 0.8
 MAX_BALL_SPEED_X = 8
 
-# --- Бонусы ---------------------------------------------------------------------
-BONUS_PROBABILITY = 0.3  # шанс выпадения бонуса из разрушаемого кирпича
+# --- Bonuses ---------------------------------------------------------------------
+BONUS_PROBABILITY = 0.3  # Chance that destroyed brick will drop a bonus
 BONUS_TYPES = ["extend", "multiball", "laser", "extra_life"]
 
-# --- Визуальные эффекты -----------------------------------------------------------
-TRAIL_LENGTH = 6  # сколько прошлых позиций мяча хранить для трейла
-PARTICLE_COUNT = 10  # частиц в одном взрыве кирпича
-PARTICLE_LIFETIME = (12, 24)  # мин/макс кадров жизни частицы
-PARTICLE_SPEED = (1.5, 4.0)  # мин/макс начальная скорость частицы
-PARTICLE_GRAVITY = 0.15  # ускорение вниз, кадр за кадром
-MAX_PARTICLES = 200  # предохранитель: не даёт частицам разрастись при частых взрывах
+# --- Visual Effects -----------------------------------------------------------
+TRAIL_LENGTH = 6  # Ball's Motion Trail Length
+PARTICLE_COUNT = 10  # Particles in brick's burst
+PARTICLE_LIFETIME = (12, 24)  # Min/max frames for the partivle to live
+PARTICLE_SPEED = (1.5, 4.0)  # Min/max parrticle speed
+PARTICLE_GRAVITY = 0.15  # Particle's acceleration
+MAX_PARTICLES = 200  # Max particles number
 
-# --- Цвета -------------------------------------------------------------------------
+# --- Colors -------------------------------------------------------------------------
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
@@ -64,10 +61,10 @@ MAGENTA = (255, 0, 255)
 PADDLE_COLOR = CYAN
 BALL_COLOR = WHITE
 
-# Соответствие hp -> цвет кирпича
+# Brick Color and HP
 BRICK_COLORS = {
     2: ORANGE,
     1: RED,
-    0: GRAY,
-    -1: DARK_GRAY,  # стена
+    0: GRAY, # Indestructable brick
+    -1: DARK_GRAY,  # Indestructable Level Boundaries
 }
