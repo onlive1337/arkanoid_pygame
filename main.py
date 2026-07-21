@@ -1,6 +1,7 @@
 import pygame
 import settings as cfg
 from screens.game_screen import run as game_screen
+from game.entities import Paddle
 
 def main():
     pygame.init()
@@ -9,10 +10,20 @@ def main():
     clock = pygame.time.Clock()
 
     running = True
+    paddle = Paddle()
+
     while running:
         # Main Loop
-        # screen.fill(cfg.BLACK)
-        game_screen(screen, clock, 1)
+        screen.fill(cfg.BLACK)
+
+        # Update Section
+        keys = pygame.key.get_pressed()
+
+        paddle.move(keys)
+
+        # Draw Section
+        paddle.draw(screen)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:   # Press "close" button
                 running = False
