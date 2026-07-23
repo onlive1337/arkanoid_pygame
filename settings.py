@@ -37,7 +37,23 @@ MAX_BALL_SPEED_X = 8
 
 # --- Bonuses ---------------------------------------------------------------------
 BONUS_PROBABILITY = 0.3  # Chance that destroyed brick will drop a bonus
-BONUS_TYPES = ["extend", "multiball", "laser", "extra_life"]
+BONUS_TYPES = [
+    "extend", "multiball", "laser", "extra_life",
+    "shrink", "speed_up", "speed_down",
+]
+BONUS_SIZE = 24          # Falling capsule width/height
+BONUS_FALL_SPEED = 3
+
+# Paddle-resize bonuses
+PADDLE_MIN_WIDTH = 50
+PADDLE_MAX_WIDTH = 200
+PADDLE_EXTEND_STEP = 40
+PADDLE_SHRINK_STEP = 40
+
+# Ball-speed bonuses
+BALL_SPEED_FACTOR = 1.3  # multiplier applied to vx/vy per bonus
+MIN_BALL_SPEED = 3
+MAX_BALL_SPEED = 12
 
 # --- Visual Effects -----------------------------------------------------------
 TRAIL_LENGTH = 6  # Ball's Motion Trail Length
@@ -58,8 +74,29 @@ YELLOW = (255, 255, 0)
 GREEN = (0, 255, 0)
 CYAN = (0, 255, 255)
 MAGENTA = (255, 0, 255)
+LIGHT_BLUE = (100, 180, 255)
 PADDLE_COLOR = CYAN
 BALL_COLOR = WHITE
+
+# Bonus icon letter + color per type
+BONUS_LETTERS = {
+    "extend": "E",
+    "multiball": "M",
+    "laser": "L",
+    "extra_life": "+",
+    "shrink": "S",
+    "speed_up": ">",
+    "speed_down": "<",
+}
+BONUS_COLORS = {
+    "extend": GREEN,
+    "multiball": CYAN,
+    "laser": RED,
+    "extra_life": MAGENTA,
+    "shrink": ORANGE,
+    "speed_up": YELLOW,
+    "speed_down": LIGHT_BLUE,
+}
 
 # Brick Color and HP
 BRICK_COLORS = {

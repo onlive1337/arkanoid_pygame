@@ -2,6 +2,7 @@ import pygame
 
 import settings as cfg
 
+
 class Paddle:
     """ Our main player, Paddle, moves only horizontally. """
 
@@ -20,7 +21,7 @@ class Paddle:
             self.vx = -self.speed
         elif keys[pygame.K_RIGHT]:
             self.vx = self.speed
-        
+
         self.rect.x += self.vx
 
         # Restrict the Paddle's movement
@@ -42,7 +43,7 @@ class Brick:
         HP = 0: Indestructable
         HP = 1, 2: One / Two hit
     """
-    
+
     def __init__(self, col: int, row: int, hp: int) -> None:
         self.hp = hp
         self.color = cfg.BRICK_COLORS[hp]
@@ -57,7 +58,7 @@ class Brick:
         """ Renders a Brick in a certain row and col. """
         pygame.draw.rect(screen, self.color, self.rect)
         pygame.draw.rect(screen, cfg.DARK_GRAY, self.rect, 2)
-    
+
     def hit(self) -> None:
         """ Handles the Brick Hit. """
         if self.hp > 0:
@@ -66,6 +67,7 @@ class Brick:
                 self.color = cfg.BRICK_COLORS[self.hp]
                 return
         return
+
 
 class Ball:
     """ Ball Actor class. """
@@ -90,3 +92,32 @@ class Ball:
         """ Renders the Ball. """
         colour = cfg.BALL_COLOR
         pygame.draw.circle(screen, colour, self.rect.center, self.radius)
+
+
+class PowerUp:
+    """ Falling bonus capsule dropped by a destroyed Brick. """
+
+    _font = None
+
+    def __init__(self, x: int, y: int, bonus_type: str) -> None:
+        self.type = bonus_type
+        self.letter = cfg.BONUS_LETTERS[bonus_type]
+        self.color = cfg.BONUS_COLORS[bonus_type]
+        self.rect = pygame.Rect(0, 0, cfg.BONUS_SIZE, cfg.BONUS_SIZE)
+        self.rect.center = (x, y)
+        self.vy = cfg.BONUS_FALL_SPEED
+
+        if PowerUp._font is None:
+            PowerUp._font = pygame.font.SysFont(None, 22)
+
+    def update(self) -> None:
+        """ Moves the PowerUp down each frame. """
+        self.rect.y += self.vy
+
+    def draw(self, screen: pygame.Surface) -> None:
+        """ Renders the capsule and its letter icon. """
+        pygame.draw.rect(screen, self.color, self.rect, border_radius=6)
+        pygame.draw.rect(screen, cfg.WHITE, self.rect, 2, border_radius=6)
+
+        text = PowerUp._font.render(self.letter, True, cfg.BLACK)
+        screen.blit(text, text.get_rect(center=self.rect.center))
